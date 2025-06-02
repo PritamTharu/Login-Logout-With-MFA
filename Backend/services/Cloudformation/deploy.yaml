@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Template to create S3 bucket for different environment"
+
+Parameters:
+  Environment:
+    Type: String
+    Description: The environment for which to create the S3 bucket (e.g., dev, staging, prod)
+    AllowedValues:
+      - dev
+      - staging
+      - prod
+    Default: dev
+
+
+Mappings:
+  Environments:
+    dev:
+      BucketName: myapp-dev-bucket
+    staging:
+      BucketName: myapp-staging-bucket
+    prod:
+      BucketName: myapp-prod-bucket
+
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !FindInMap [Environments, !Ref Environment, BucketName]
+      VersioningConfiguration:
+        Status: Enabled
+      Tags:
+        - Key: Environment
+          Value: !Ref Environment
+
+
+Outputs:
+  BucketName:
+    Description: "The name of the created S3 bucket"
+    Value: !Ref S3Bucket
+
+
+# Command to apply this:-  aws cloudformation create-stack --stack-name my-app-staging-stack --template-body yamlfilelocation --parameters ParameterKey=Environment, ParameterValue=staging

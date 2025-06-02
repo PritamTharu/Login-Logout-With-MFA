@@ -1,0 +1,30 @@
+/* not-found.component.css */
+.not-found-container {
+    text-align: center;
+    padding: 50px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    font-size: 100px;
+    color: #ff5722;
+  }
+  
+  p {
+    font-size: 20px;
+    color: #333;
+  }
+  
+  a.back-home-link {
+    font-size: 18px;
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  a.back-home-link:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  

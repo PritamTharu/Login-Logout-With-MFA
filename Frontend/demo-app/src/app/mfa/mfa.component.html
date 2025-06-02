@@ -1,0 +1,42 @@
+<ng-container *ngIf="!isMfaConfigured" >
+  <h3 style="margin: 200px 600px;">Click below to configure MFA</h3>
+  <button matButton style="margin-left: 700px;" (click)="generateQR(QRTemplate)">Generate QR</button>
+
+  <ng-template #QRTemplate>
+      <h2 mat-dialog-title style="text-align: center; font-size: 24px; margin-bottom: 10px;">Scan QR Code</h2>
+      <mat-dialog-content style="text-align: center; padding: 20px;">
+        <p style="margin-bottom: 20px; font-size: 16px;">Scan this QR code with Google Authenticator or any TOTP app</p>
+        <img [src]="qrCodeUrl" alt="QR Code"  *ngIf="qrCodeUrl" style="width: 200px; height: 200px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px;">
+        <p style="font-size: 14px; word-break: break-all;"><strong>Or Enter Code Manually:</strong> {{ secret }}</p>
+      </mat-dialog-content>
+      <mat-dialog-actions style="display: flex; justify-content: center; padding-bottom: 16px; gap: 15px;">
+        <button mat-button mat-dialog-close style="padding: 6px 24px; font-size: 14px;">Cancel</button>
+        <button mat-button color="primary" style="padding: 6px 24px; font-size: 14px;" (click)="gotoVerifyDialouge()">Done</button>
+      </mat-dialog-actions>
+  </ng-template>
+  
+  <ng-template #VerifyQRTemplate>
+      <h2 mat-dialog-title style="text-align: center; font-size: 24px; margin-bottom: 10px;">Enter MFA Code</h2>
+      <mat-dialog-content style="text-align: center; padding: 20px;">
+        <input required type="number" [(ngModel)]="mfaCode" #inputField="ngModel" (input)="onInputChange()">
+      </mat-dialog-content>
+      <mat-dialog-content>
+          <div *ngIf="inputField.invalid && inputField.touched" class="error-message">
+              <small *ngIf="inputField.errors?.['required']">Token is required.</small>
+          </div>
+          <div *ngIf="mfaErrorMessage" class="error-message">{{ mfaErrorMessage }}</div>
+      </mat-dialog-content>
+      <mat-dialog-actions style="display: flex; justify-content: center; padding-bottom: 16px; gap: 15px;">
+        <button mat-button mat-dialog-close style="padding: 6px 24px; font-size: 14px;">Cancel</button>
+        <button mat-button color="primary" style="padding: 6px 24px; font-size: 14px;" (click)="VerifyMfa()">Verify</button>
+      </mat-dialog-actions>
+  </ng-template>
+    
+</ng-container>
+
+
+<ng-container *ngIf="isMfaConfigured">
+  <h3 style="margin: 200px 600px;">MFA already Configured </h3>
+  <button matButton style="margin-left: 700px;" (click)="removeConfiguredMFA()">Remove Configured MFA</button>
+
+</ng-container>

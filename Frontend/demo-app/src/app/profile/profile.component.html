@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>Update Your Profile</h2>
+<mat-dialog-content>
+    <div class="container">
+        <div class="profile-container">
+            <img *ngIf="previewURL" [src]="previewURL" alt="profile picture" class="profile-pic">
+            <div *ngIf="avatarUrl"><img [src]="avatarUrl" alt="User Avatar" class="profile-pic"/></div>
+        </div>
+        <input class="chooseFile" type="file" (change)="onFileSelected($event)" [hidden]="previewURL || avatarUrl">
+        <div class="close-icon-container" *ngIf="previewURL || avatarUrl">
+            <button mat-icon-button (click)="onFileDeselect()">
+              <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="onUpload()" >update</button>
+</mat-dialog-actions>
